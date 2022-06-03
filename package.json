@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "dev": "tsup --watch",
-    "build": "tsup -c",
+    "build": "tsup",
     "test": "vitest",
     "coverage": "vitest run --coverage"
   },
