@@ -12,14 +12,14 @@ A library for generating file trees.
 ## Install
 
 ```shell
-npm i filestree
+npm i @herberthe/filestree
 
 # Or
-yarn add filestree
+yarn add @herberthe/filestree
 
 # Or
 
-pnpm add filestree
+pnpm add @herberthe/filestree
 ```
 
 ## Usage
