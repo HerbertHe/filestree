@@ -1,7 +1,7 @@
 # FilesTree
 
-[![version](https://img.shields.io/npm/v/filestree.svg)](https://www.npmjs.com/package/filestree)
-[![download](https://img.shields.io/npm/dm/filestree.svg)](https://www.npmjs.com/package/filestree)
+[![version](https://img.shields.io/npm/v/@herberthe/filestree.svg)](https://www.npmjs.com/package/@herberthe/filestree)
+[![download](https://img.shields.io/npm/dm/@herberthe/filestree.svg)](https://www.npmjs.com/package/@herberthe/filestree)
 [![GitHub license](https://img.shields.io/github/license/HerbertHe/filestree)](https://github.com/HerbertHe/filestree/blob/main/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/HerbertHe/filestree)](https://github.com/HerbertHe/filestree/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/HerbertHe/filestree)](https://github.com/HerbertHe/filestree/network)
