@@ -16,21 +16,21 @@ export type FilterFunctionType = (filename: string) => boolean
  *
  */
 export interface IOptions {
-	entry: string
-	depth?: number
-	filter?: RegExp | FilterFunctionType
-	path?: "relative" | "absolute"
-	flat?: boolean
-	output?: "path" | "stats"
+    entry: string
+    depth?: number
+    filter?: RegExp | FilterFunctionType
+    path?: "relative" | "absolute"
+    flat?: boolean
+    output?: "path" | "stats"
 }
 
 export interface IFileTree<T> {
     name: string
     dir: boolean
-    target: T extends "path" ? string : Stats
+    target: string | Stats
     files: IFileTree<T>[]
 }
 
-export type OutputType<T extends "path" | "stats" = "path"> = IFileTree<T>
+export type OutputType = IFileTree<string | Stats>
 
-export type OutputFunctionType<T extends "path" | "stats"> = () => OutputType<T>[]
+export type OutputFunctionType = () => OutputType[]
