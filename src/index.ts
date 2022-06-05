@@ -22,7 +22,7 @@ export class FilesTree {
     }
 
     private _generateTree = (dir: string): OutputType[] => {
-        const { depth, filter, output } = this._options
+        const { depth, filter, output, custom } = this._options
         let tmp: OutputType[] = []
 
         if (this._d <= depth) {
@@ -37,12 +37,17 @@ export class FilesTree {
                     if (filter.test(file)) {
                         const p = join(dir, file)
                         const stat = lstatSync(p)
-                        tmp.push({
-                            name: file,
-                            dir: stat.isDirectory(),
-                            target: output === "path" ? p : stat,
-                            files: stat.isDirectory() ? this._generateTree(p) : [],
-                        })
+
+                        if (!!custom) {
+                            tmp.push(custom(file, p, stat))
+                        } else {
+                            tmp.push({
+                                name: file,
+                                dir: stat.isDirectory(),
+                                target: output === "path" ? p : stat,
+                                files: stat.isDirectory() ? this._generateTree(p) : [],
+                            })
+                        }
                     }
                     continue
                 }
@@ -51,26 +56,34 @@ export class FilesTree {
                     if (filter(file)) {
                         const p = join(dir, file)
                         const stat = lstatSync(p)
-                        tmp.push({
-                            name: file,
-                            dir: stat.isDirectory(),
-                            target: output === "path" ? p : stat,
-                            files: stat.isDirectory() ? this._generateTree(p) : [],
-                        })
+
+                        if (!!custom) {
+                            tmp.push(custom(file, p, stat))
+                        } else {
+                            tmp.push({
+                                name: file,
+                                dir: stat.isDirectory(),
+                                target: output === "path" ? p : stat,
+                                files: stat.isDirectory() ? this._generateTree(p) : [],
+                            })
+                        }
                     }
                     continue
                 }
 
                 const p = join(dir, file)
                 const stat = lstatSync(p)
-                tmp.push({
-                    name: file,
-                    dir: stat.isDirectory(),
-                    target: output === "path" ? p : stat,
-                    files: stat.isDirectory() ? this._generateTree(p) : [],
-                })
+                if (!!custom) {
+                    tmp.push(custom(file, p, stat))
+                } else {
+                    tmp.push({
+                        name: file,
+                        dir: stat.isDirectory(),
+                        target: output === "path" ? p : stat,
+                        files: stat.isDirectory() ? this._generateTree(p) : [],
+                    })
+                }
                 continue
-
             }
         }
 

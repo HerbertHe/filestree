@@ -13,6 +13,8 @@ export type FilterFunctionType = (filename: string) => boolean
  * @type {RegExp | FilterFunction} filter - The filter to filter the files
  * @type {"relative" | "absolute"} path - The path type
  * @type {boolean} flat - Whether to flatten the output
+ * @type {"path" | "stats" | "custom"} output - The output type
+ * @type {function} custom - The custom output function
  *
  */
 export interface IOptions {
@@ -22,6 +24,7 @@ export interface IOptions {
     path?: "relative" | "absolute"
     flat?: boolean
     output?: "path" | "stats"
+    custom?: <T extends any = any>(filename: string, path: string, stats: Stats) => T
 }
 
 export interface IFileTree<T> {
@@ -31,6 +34,6 @@ export interface IFileTree<T> {
     files: IFileTree<T>[]
 }
 
-export type OutputType = IFileTree<string | Stats>
+export type OutputType<T extends any = any> = IFileTree<string | Stats> | T
 
 export type OutputFunctionType = () => OutputType[]

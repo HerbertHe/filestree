@@ -118,3 +118,84 @@ test("test output stats", () => {
         console.error(e)
     }
 })
+
+test("test custom output function", () => {
+    try {
+        interface CustomOutput {
+            import: string
+        }
+
+        let tree = new FilesTree({
+            entry: "__test__",
+            filter: /\.ts$/,
+            path: "relative",
+            custom: <CustomOutput>(filename: string, path: string, stats: Stats) => {
+                const fn = filename.replace(/.test.ts$/g, "")
+                const tmp = {
+                    import: `import ${fn[0].toUpperCase() + fn.slice(1)} from "${path.replace("__test__", ".").replace(/\\/g, "/")}"`
+                } as unknown as CustomOutput
+                return tmp
+            },
+        }).output()
+
+        const expected = [{ "import": "import Index from \"./index.test.ts\"" }]
+
+        expect(tree).toEqual(expected)
+    } catch (e) {
+        console.error(e)
+    }
+})
+
+test("test custom output function with filter function", () => {
+    try {
+        interface CustomOutput {
+            import: string
+        }
+
+        let tree = new FilesTree({
+            entry: "__test__",
+            filter: (filename) => {
+                return filename.endsWith(".ts")
+            },
+            path: "relative",
+            custom: <CustomOutput>(filename: string, path: string, stats: Stats) => {
+                const fn = filename.replace(/.test.ts$/g, "")
+                const tmp = {
+                    import: `import ${fn[0].toUpperCase() + fn.slice(1)} from "${path.replace("__test__", ".").replace(/\\/g, "/")}"`
+                } as unknown as CustomOutput
+                return tmp
+            },
+        }).output()
+
+        const expected = [{ "import": "import Index from \"./index.test.ts\"" }]
+
+        expect(tree).toEqual(expected)
+    } catch (e) {
+        console.error(e)
+    }
+})
+
+test("test custom output function without filter", () => {
+    try {
+        interface CustomOutput {
+            filename: string
+        }
+
+        let tree = new FilesTree({
+            entry: "__test__",
+            path: "relative",
+            depth: 0,
+            custom: <CustomOutput>(filename: string, path: string, stats: Stats) => {
+                const tmp = {
+                    filename
+                } as unknown as CustomOutput
+                return tmp
+            },
+        }).output()
+
+        const expected = [{ "filename": "depth0" }, { "filename": "index.test.ts" }]
+        expect(tree).toEqual(expected)
+    } catch (e) {
+        console.error(e)
+    }
+})
