@@ -92,7 +92,7 @@ export class FilesTree {
 
     private _flat = (tree: OutputType[]) => {
         return tree.reduce((acc, item) => {
-            if (!!item.dir) {
+            if (!!item.files && item.files.length > 0) {
                 acc = [...acc, { ...item, files: [] }, ...this._flat(item.files)]
             } else {
                 acc.push(item)
