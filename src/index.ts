@@ -53,10 +53,9 @@ export class FilesTree {
                 }
 
                 if (!!filter && typeof filter === "function") {
-                    if (filter(file)) {
-                        const p = join(dir, file)
-                        const stat = lstatSync(p)
-
+                    const p = join(dir, file)
+                    const stat = lstatSync(p)
+                    if (filter(file, stat)) {
                         if (!!custom) {
                             tmp.push(custom(file, p, stat))
                         } else {
@@ -90,6 +89,18 @@ export class FilesTree {
         return tmp
     }
 
+
+    private _flat = (tree: OutputType[]) => {
+        return tree.reduce((acc, item) => {
+            if (!!item.dir) {
+                acc = [...acc, { ...item, files: [] }, ...this._flat(item.files)]
+            } else {
+                acc.push(item)
+            }
+            return acc
+        }, [])
+    }
+
     output: OutputFunctionType = () => {
         const { entry, flat, path } = this._options
 
@@ -104,6 +115,6 @@ export class FilesTree {
 
         const tmp = this._generateTree(path === "absolute" ? join(process.cwd(), entry) : entry)
 
-        return flat ? tmp.flat(Infinity) : tmp
+        return flat ? this._flat(tmp) : tmp
     }
 }

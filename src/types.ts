@@ -3,7 +3,7 @@ import type { Stats } from "fs"
 /**
  * Filter Function
  */
-export type FilterFunctionType = (filename: string) => boolean
+export type FilterFunctionType = (filename: string, stats?: Stats) => boolean
 
 /**
  * IOptions
@@ -24,7 +24,7 @@ export interface IOptions {
     path?: "relative" | "absolute"
     flat?: boolean
     output?: "path" | "stats"
-    custom?: <T extends any = any>(filename: string, path: string, stats: Stats) => T
+    custom?: <T>(filename: string, path: string, stats: Stats) => T
 }
 
 export interface IFileTree<T> {

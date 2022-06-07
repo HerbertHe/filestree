@@ -59,10 +59,10 @@ test("test flat", () => {
             entry: "__test__",
             output: "path",
             flat: true,
-            depth: 0
+            depth: 1
         }).output()
 
-        const expected = [{ "name": "depth0", "dir": true, "target": "F:\\Projects\\filestree\\__test__\\depth0", "files": [] }, { "name": "index.test.ts", "dir": false, "target": "F:\\Projects\\filestree\\__test__\\index.test.ts", "files": [] }]
+        const expected = [{ "name": "depth0", "dir": true, "target": "F:\\Projects\\filestree\\__test__\\depth0", "files": [] }, { "name": "depth1", "dir": true, "target": "F:\\Projects\\filestree\\__test__\\depth0\\depth1", "files": [] }, { "name": "index.test.ts", "dir": false, "target": "F:\\Projects\\filestree\\__test__\\index.test.ts", "files": [] }]
 
         expect(tree).toEqual(expected)
     }
