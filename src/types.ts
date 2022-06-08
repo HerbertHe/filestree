@@ -18,7 +18,7 @@ export type FilterFunctionType = (filename: string, stats?: Stats) => boolean
  *
  */
 export interface IOptions {
-    entry: string
+    entry: string | string[]
     depth?: number
     filter?: RegExp | FilterFunctionType
     path?: "relative" | "absolute"

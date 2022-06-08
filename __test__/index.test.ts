@@ -22,6 +22,16 @@ test("test entry is not existed", () => {
     }
 })
 
+test("test entry is not existed with array", () => {
+    try {
+        let tree = new FilesTree({
+            entry: ["test"],
+        }).output()
+    } catch (e) {
+        assert(e.message === "Entry is not existed!")
+    }
+})
+
 test("test depth", () => {
     try {
         let tree = new FilesTree({
@@ -194,6 +204,23 @@ test("test custom output function without filter", () => {
         }).output()
 
         const expected = [{ "filename": "depth0" }, { "filename": "index.test.ts" }]
+        expect(tree).toEqual(expected)
+    } catch (e) {
+        console.error(e)
+    }
+})
+
+test("test multi entry", () => {
+    try {
+        let tree = new FilesTree({
+            entry: ["__test__", "src"],
+            output: "path",
+            depth: 0,
+            filter: /\.ts$/,
+        }).output()
+
+        const expected = [{ "name": "index.test.ts", "dir": false, "target": "F:\\Projects\\filestree\\__test__\\index.test.ts", "files": [] }, { "name": "index.ts", "dir": false, "target": "F:\\Projects\\filestree\\src\\index.ts", "files": [] }, { "name": "types.ts", "dir": false, "target": "F:\\Projects\\filestree\\src\\types.ts", "files": [] }]
+
         expect(tree).toEqual(expected)
     } catch (e) {
         console.error(e)

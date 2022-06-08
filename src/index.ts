@@ -109,11 +109,27 @@ export class FilesTree {
             throw new Error("Entry is required!")
         }
 
-        if (!existsSync(entry)) {
-            throw new Error("Entry is not existed!")
+        let tmp: OutputType[] = []
+
+        if (typeof entry === "string") {
+            if (!existsSync(entry)) {
+                throw new Error("Entry is not existed!")
+            }
+
+            tmp = this._generateTree(path === "absolute" ? join(process.cwd(), entry) : entry)
         }
 
-        const tmp = this._generateTree(path === "absolute" ? join(process.cwd(), entry) : entry)
+        if (Array.isArray(entry)) {
+            for (let i = 0; i < entry.length; i++) {
+                if (!existsSync(entry[i])) {
+                    throw new Error("Entry is not existed!")
+                }
+
+                tmp = [...tmp, ...this._generateTree(path === "absolute" ? join(process.cwd(), entry[i]) : entry[i])]
+                // reset depth
+                this._d = 0
+            }
+        }
 
         return flat ? this._flat(tmp) : tmp
     }
