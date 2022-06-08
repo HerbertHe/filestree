@@ -24,7 +24,7 @@ export interface IOptions {
     path?: "relative" | "absolute"
     flat?: boolean
     output?: "path" | "stats"
-    custom?: <T>(filename: string, path: string, stats: Stats) => T
+    custom?: (filename: string, path: string, stats: Stats) => any
 }
 
 export interface IFileTree<T> {
